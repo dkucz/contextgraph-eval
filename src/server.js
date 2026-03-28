@@ -6,7 +6,13 @@ const webhookRoutes = require("./routes/webhooks");
 
 const app = express();
 
-app.use(express.json());
+app.use(
+  express.json({
+    verify: (req, res, buffer) => {
+      req.rawBody = buffer.toString("utf8");
+    },
+  })
+);
 
 app.get("/health", (req, res) => {
   res.json({ status: "ok", service: "building-sensor-platform" });

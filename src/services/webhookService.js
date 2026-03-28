@@ -1,3 +1,5 @@
+const crypto = require("crypto");
+
 const subscriptions = [
   {
     id: "wh-building-ops",
@@ -32,13 +34,29 @@ function deliver(alert, sensor) {
       deliveryId: `${subscription.id}:${alert.alertId}`,
       targetUrl: subscription.targetUrl,
       signatureHeader: "x-platform-signature",
+      signatureValue: signPayload(JSON.stringify(payload), subscription.signingSecret),
       delivered: true,
       payload,
     }));
 }
 
+function signPayload(rawBody, signingSecret) {
+  return crypto.createHmac("sha256", signingSecret).update(rawBody).digest("hex");
+}
+
+function verifyIncomingSignature(rawBody, signature, signingSecret) {
+  if (!rawBody) {
+    return false;
+  }
+
+  const expected = signPayload(rawBody, signingSecret);
+  return expected === signature;
+}
+
 module.exports = {
   buildPayload,
+  signPayload,
   subscriptions,
   deliver,
+  verifyIncomingSignature,
 };

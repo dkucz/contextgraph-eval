@@ -6,7 +6,10 @@ Current delivery behavior:
 
 - Event type: `alert.triggered`
 - Signature header: `x-platform-signature`
+- Verification endpoint: `POST /api/webhooks/verify`
 - Example target URL: `https://ops.example.com/hooks/building-alerts`
+
+Signatures are generated with `HMAC-SHA256` using the raw request body. Integrations that parse and re-stringify the JSON before validation will fail verification.
 
 Example payload:
 
