@@ -1,3 +1,18 @@
 # Authentication
 
-Authentication is not yet enforced for local development. Device tokens will be added in a future change.
+All `/api/*` endpoints require a device JWT in the `Authorization` header.
+
+Header format:
+
+`Authorization: Bearer <token>`
+
+Expected JWT claims:
+
+- `sub`: device identifier
+- `buildingId`: building scope for the device
+- `scope`: must include `sensor:write` for ingest endpoints
+
+Notes:
+
+- Tokens are signed with `HS256`
+- Missing or invalid tokens return `401`

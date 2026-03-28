@@ -18,5 +18,6 @@ Node.js and Express backend for managing building sensors, alert rules, webhook 
 
 ## Notes
 
+- API routes require `Authorization: Bearer <token>`.
 - Sensor list responses are paginated.
 - Supported sensor types include `temperature`, `humidity`, and `motion`.
