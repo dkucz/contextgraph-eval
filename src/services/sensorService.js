@@ -18,6 +18,14 @@ function ingest(payload) {
     receivedAt: payload.receivedAt || new Date().toISOString(),
   };
 
+  if (payload.type === "temperature") {
+    sensor.temperatureC = payload.reading;
+  }
+
+  if (payload.type === "motion") {
+    sensor.motionDetected = payload.reading === true;
+  }
+
   sensors.push(sensor);
   return sensor;
 }

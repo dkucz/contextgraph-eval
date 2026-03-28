@@ -28,7 +28,7 @@ function matches(rule, sensor) {
   }
 
   if (rule.operator === "gt") {
-    return Number(sensor.reading) > rule.threshold;
+    return Number(sensor.temperatureC) > rule.threshold;
   }
 
   if (rule.operator === "eq") {
