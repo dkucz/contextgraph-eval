@@ -12,3 +12,7 @@ Supported severity levels:
 
 - `warning`
 - `critical`
+
+Implementation note:
+
+- Humidity rules compare against the sensor `reading` value
