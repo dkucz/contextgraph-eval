@@ -24,7 +24,7 @@ function ingest(payload) {
 
 function list({ page, pageSize }) {
   const safePage = Number.isNaN(page) || page < 1 ? 1 : page;
-  const safePageSize = Number.isNaN(pageSize) || pageSize < 1 ? 25 : Math.min(pageSize, 50);
+  const safePageSize = Number.isNaN(pageSize) || pageSize < 1 ? 25 : Math.min(pageSize, 100);
   const start = (safePage - 1) * safePageSize;
   const data = sensors.slice(start, start + safePageSize);
 

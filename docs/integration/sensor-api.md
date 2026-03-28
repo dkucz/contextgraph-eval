@@ -28,5 +28,9 @@ Valid sensor types:
 `GET /api/sensors?page=1&pageSize=25`
 
 - Default `pageSize` is `25`
-- Maximum `pageSize` is `50`
+- Maximum `pageSize` is `100`
 - Requests above the maximum are capped by the service
+
+Authentication:
+
+- Header format: `Authorization: Bearer <token>`
