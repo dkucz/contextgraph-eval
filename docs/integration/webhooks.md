@@ -18,6 +18,7 @@ Example payload:
   "alertId": "rule-temp-high:sensor-100",
   "ruleId": "rule-temp-high",
   "severity": "warning",
+  "correlationId": "1a2d2b5f-664b-455e-9064-c6e95e89c7ae",
   "sensor": {
     "id": "sensor-100",
     "type": "temperature",
@@ -27,3 +28,5 @@ Example payload:
   "triggeredAt": "2026-01-12T10:15:00.000Z"
 }
 ```
+
+If the sender includes `X-Correlation-Id`, the same value is echoed in webhook deliveries and event payloads.

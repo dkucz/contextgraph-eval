@@ -1,5 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const alertRoutes = require("./routes/alerts");
 const sensorRoutes = require("./routes/sensors");
@@ -18,6 +19,13 @@ app.use(
 
 app.get("/health", (req, res) => {
   res.json({ status: "ok", service: "building-sensor-platform" });
+});
+
+app.use((req, res, next) => {
+  const correlationId = req.header("x-correlation-id") || crypto.randomUUID();
+  req.correlationId = correlationId;
+  res.setHeader("x-correlation-id", correlationId);
+  next();
 });
 
 app.use("/api", (req, res, next) => {

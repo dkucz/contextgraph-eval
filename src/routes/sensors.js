@@ -11,18 +11,21 @@ router.post("/ingest", (req, res) => {
   try {
     const sensor = sensorService.ingest(req.body);
     const alerts = alertService.evaluateAlerts(sensor);
-    const deliveries = alerts.flatMap((alert) => webhookService.deliver(alert, sensor));
+    const deliveries = alerts.flatMap((alert) =>
+      webhookService.deliver(alert, sensor, req.correlationId)
+    );
     const event = eventPublisher.publishSensorEvent({
       type: "sensor.ingested",
       sensorId: sensor.id,
       sensorType: sensor.type,
       buildingId: sensor.buildingId,
       receivedAt: sensor.receivedAt,
+      correlationId: req.correlationId,
     });
 
-    res.status(202).json({ accepted: true, sensor, alerts, deliveries, event });
+    res.status(202).json({ accepted: true, correlationId: req.correlationId, sensor, alerts, deliveries, event });
   } catch (error) {
-    res.status(error.statusCode || 500).json({ error: error.message });
+    res.status(error.statusCode || 500).json({ error: error.message, correlationId: req.correlationId });
   }
 });
 

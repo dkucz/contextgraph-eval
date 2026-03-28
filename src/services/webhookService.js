@@ -10,11 +10,12 @@ const subscriptions = [
   },
 ];
 
-function buildPayload(alert, sensor) {
+function buildPayload(alert, sensor, correlationId) {
   return {
     alertId: alert.alertId,
     ruleId: alert.ruleId,
     severity: alert.severity,
+    correlationId,
     sensor: {
       id: sensor.id,
       type: sensor.type,
@@ -25,8 +26,8 @@ function buildPayload(alert, sensor) {
   };
 }
 
-function deliver(alert, sensor) {
-  const payload = buildPayload(alert, sensor);
+function deliver(alert, sensor, correlationId) {
+  const payload = buildPayload(alert, sensor, correlationId);
 
   return subscriptions
     .filter((subscription) => subscription.active && subscription.eventType === "alert.triggered")

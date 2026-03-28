@@ -6,6 +6,11 @@ Common API responses:
 - `401` for missing or invalid device JWTs
 - `202` for accepted sensor ingests
 
+Tracing:
+
+- Responses may include `x-correlation-id`
+- Clients can provide `X-Correlation-Id` to reuse their own trace identifier
+
 Pagination behavior:
 
 - Requests above the sensor `pageSize` limit are capped instead of rejected
