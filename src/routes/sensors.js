@@ -1,6 +1,7 @@
 const express = require("express");
 
 const alertService = require("../services/alertService");
+const eventPublisher = require("../events/eventPublisher");
 const sensorService = require("../services/sensorService");
 const webhookService = require("../services/webhookService");
 
@@ -11,7 +12,15 @@ router.post("/ingest", (req, res) => {
     const sensor = sensorService.ingest(req.body);
     const alerts = alertService.evaluateAlerts(sensor);
     const deliveries = alerts.flatMap((alert) => webhookService.deliver(alert, sensor));
-    res.status(202).json({ accepted: true, sensor, alerts, deliveries });
+    const event = eventPublisher.publishSensorEvent({
+      type: "sensor.ingested",
+      sensorId: sensor.id,
+      sensorType: sensor.type,
+      buildingId: sensor.buildingId,
+      receivedAt: sensor.receivedAt,
+    });
+
+    res.status(202).json({ accepted: true, sensor, alerts, deliveries, event });
   } catch (error) {
     res.status(error.statusCode || 500).json({ error: error.message });
   }

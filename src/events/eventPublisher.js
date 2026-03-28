@@ -1,6 +1,10 @@
+const brokerConfig = require("../../config/broker");
+
 function publishSensorEvent(event) {
   return {
-    published: false,
+    published: true,
+    exchange: brokerConfig.exchangeName,
+    routingKey: brokerConfig.routingKeys.sensorIngested,
     event,
   };
 }

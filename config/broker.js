@@ -1,5 +1,5 @@
 module.exports = {
-  exchangeName: null,
+  exchangeName: "sensor_events",
   routingKeys: {
     sensorIngested: "sensor.ingested",
     alertTriggered: "alert.triggered",
