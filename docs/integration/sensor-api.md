@@ -9,10 +9,19 @@ Example payload:
 ```json
 {
   "id": "sensor-100",
+  "buildingId": "building-east",
+  "deviceId": "dev-201",
   "type": "temperature",
-  "reading": 21.4
+  "reading": 21.4,
+  "unit": "C"
 }
 ```
+
+Valid sensor types:
+
+- `temperature`
+- `humidity`
+- `motion`
 
 ## List sensors
 
@@ -20,3 +29,4 @@ Example payload:
 
 - Default `pageSize` is `25`
 - Maximum `pageSize` is `50`
+- Requests above the maximum are capped by the service

@@ -19,4 +19,4 @@ Node.js and Express backend for managing building sensors, alert rules, webhook 
 ## Notes
 
 - Sensor list responses are paginated.
-- Supported sensor types include `temperature` and `motion`.
+- Supported sensor types include `temperature`, `humidity`, and `motion`.

@@ -5,8 +5,12 @@ const sensorService = require("../services/sensorService");
 const router = express.Router();
 
 router.post("/ingest", (req, res) => {
-  const sensor = sensorService.ingest(req.body);
-  res.status(202).json({ accepted: true, sensor });
+  try {
+    const sensor = sensorService.ingest(req.body);
+    res.status(202).json({ accepted: true, sensor });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ error: error.message });
+  }
 });
 
 router.get("/", (req, res) => {

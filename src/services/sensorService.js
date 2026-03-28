@@ -1,10 +1,20 @@
 const sensors = [];
+const VALID_SENSOR_TYPES = ["temperature", "humidity", "motion"];
 
 function ingest(payload) {
+  if (!VALID_SENSOR_TYPES.includes(payload.type)) {
+    const error = new Error(`Unsupported sensor type: ${payload.type}`);
+    error.statusCode = 400;
+    throw error;
+  }
+
   const sensor = {
     id: payload.id,
+    buildingId: payload.buildingId,
+    deviceId: payload.deviceId,
     type: payload.type,
     reading: payload.reading,
+    unit: payload.unit || null,
     receivedAt: payload.receivedAt || new Date().toISOString(),
   };
 
@@ -25,10 +35,12 @@ function list({ page, pageSize }) {
       pageSize: safePageSize,
       total: sensors.length,
     },
+    supportedSensorTypes: VALID_SENSOR_TYPES,
   };
 }
 
 module.exports = {
   ingest,
   list,
+  VALID_SENSOR_TYPES,
 };
